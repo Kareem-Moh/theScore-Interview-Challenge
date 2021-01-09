@@ -1,0 +1,19 @@
+version: "3"
+services:
+  frontend:
+    image: ts-frontend-container
+    stdin_open: true
+    networks: 
+      - mern-app
+    ports: 
+      - "3000:3000"
+
+  backend:
+    image: ts-backend-container
+    networks:
+      - mern-app
+    ports: 
+      - "9000:9000"
+networks:
+  mern-app:
+    driver: bridge
