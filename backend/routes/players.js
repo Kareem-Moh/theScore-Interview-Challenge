@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const PlayerController = require('../controllers/player-controller')
 
-/* GET players listing. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
   res.send('Connected to Express!');
 });
+router.get('/all-players', PlayerController.getAllPlayers);
 
 module.exports = router;

@@ -14,6 +14,21 @@ services:
       - mern-app
     ports: 
       - "9000:9000"
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  mongo_seed:
+    image: ts-mongo-seed-container
+    links:
+      - mongo
 networks:
   mern-app:
     driver: bridge
+volumes:
+  mongo-data:
+    driver: local
