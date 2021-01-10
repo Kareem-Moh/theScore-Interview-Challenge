@@ -22,10 +22,14 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    networks:
+      - mern-app
   mongo_seed:
     image: ts-mongo-seed-container
     links:
       - mongo
+    networks:
+      - mern-app
 networks:
   mern-app:
     driver: bridge

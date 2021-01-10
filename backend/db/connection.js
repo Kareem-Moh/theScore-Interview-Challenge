@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
-const connectString = 'mongodb://mongo:27017/players';
+const connectString = 'mongodb://mongo:27017/theRush';
 
-mongoose.connect(connectString, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true }).catch((e) => {
+mongoose.connect(connectString, { useNewUrlParser: true, useUnifiedTopology: true }).catch((e) => {
         console.log('Connection Error: ', e.message)
 })
 
