@@ -1,0 +1,19 @@
+.player-table--container {
+    border: none;
+    &--table {
+        margin: 20px auto;
+        th {
+            padding: 15px;
+            background-color: #1e1f21;
+        }
+        tr:nth-child(odd) {
+            background-color: #000000;
+        }
+        td {
+            margin: 0;
+            padding:0;
+            padding: 15px;
+            border: none;
+        }
+    }
+}

@@ -20,8 +20,6 @@ services:
     image: mongo:3.6.19-xenial
     ports:
       - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
     networks:
       - mern-app
   mongo_seed:
@@ -33,6 +31,3 @@ services:
 networks:
   mern-app:
     driver: bridge
-volumes:
-  mongo-data:
-    driver: local
