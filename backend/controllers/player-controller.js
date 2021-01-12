@@ -1,7 +1,7 @@
 const Player = require('../models/player')
 
 getAllPlayers = async (req, res) => {
-    await Player.find({}, (err, players) => {
+    await Player.find().sort({ "Player": 1 }).exec((err, players) => {
         if (err) {
             return res.status(500).json({ success: false, error: err })
         } else if (!players.length) {
@@ -10,7 +10,7 @@ getAllPlayers = async (req, res) => {
                 .json({ success: false, data: [], error: `Players not found` })
         }
         return res.status(200).json({ success: true, data: players })
-    }).catch(err => console.log(err))
+    })
 }
 
 getPlayersByYards = async (req, res) => {

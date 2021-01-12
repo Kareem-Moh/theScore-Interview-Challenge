@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import get from 'lodash/get';
+import './FilterBar.scss';
 
 const FilterBar = props => {
     const {
@@ -27,7 +28,7 @@ const FilterBar = props => {
                 filters.map(filter => {
                     if (get(filter, "type", "") === "search"){
                         return <div className="filter-bar--search">
-                            <label>{`Search ${get(filter, "field.label", "")}: `}
+                            <label>{`Search ${get(filter, "field.value", "")}: `}
                                 <input 
                                     className="filter-bar--search--input"
                                     value={searchState}
@@ -37,7 +38,7 @@ const FilterBar = props => {
                     } else if (get(filter, "type", "") === "select"){
                         return <div className="filter-bar--select">
                             <label>
-                                Sort by: 
+                                Sort by:&nbsp;
                                 <select value={sortState} onChange={handleSortChange}>
                                     {
                                         get(filter, "field", []).map((sortOption, i) => {
@@ -47,6 +48,8 @@ const FilterBar = props => {
                                 </select>
                             </label>
                         </div>
+                    } else {
+                        return <></>
                     }
                 })
             }

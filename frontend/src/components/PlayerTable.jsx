@@ -17,7 +17,9 @@ const PlayerTable = props => {
                                 Object.keys(props.data[0]).map(tableHeader => {
                                     if (tableHeader !== "_id"){
                                         return <th>{tableHeader}</th>
-                                    } else {return}
+                                    } else {
+                                        return <></>
+                                    }
                                 })
                             }
                         </tr>
@@ -26,7 +28,9 @@ const PlayerTable = props => {
                                     return <tr key={i}>{Object.keys(player).map((colVal, i) => {
                                         if (colVal !== "_id"){
                                             return <td key={i}>{get(player, `${colVal}`, `-`)}</td>
-                                        } else {return}
+                                        } else {
+                                            return <></>
+                                        }
                                     })}</tr>
                                 })
                             }
