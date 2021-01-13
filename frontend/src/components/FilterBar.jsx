@@ -42,7 +42,6 @@ const FilterBar = props => {
                                 <select value={sortState} onChange={handleSortChange}>
                                     {
                                         get(filter, "field", []).map((sortOption, i) => {
-                                            console.log(sortOption, i)
                                             return <option key={i} value={sortOption.value}>{sortOption.label}</option> 
                                         })
                                     }
