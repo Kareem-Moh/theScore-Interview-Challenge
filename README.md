@@ -8,6 +8,11 @@ TheScore Interview Challenge (The Rush)
 1. Run `make build-all`
 2. Run `make run`
 
+## Port allocation
+1. React - `localhost:3000`
+2. Express - `localhost:9000`
+3. Mongo (native host) - `localhost:27017`
+
 ## Features/Stack
 1. MongoDB + mongoose integration
 2. Express.js + Model/Controller coding design
