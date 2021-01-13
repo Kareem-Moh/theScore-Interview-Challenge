@@ -14,12 +14,12 @@ const FilterBar = props => {
 
     const handleSearchChange = (e) => {
         setSearchState(e.target.value)
-        onSearchChangeHandler(searchState)
+        onSearchChangeHandler(e.target.value)
     }
 
     const handleSortChange = (e) => {
         setSortState(e.target.value)
-        onSortChangeHandler(sortState)
+        onSortChangeHandler(e.target.value)
     }
 
     return (
@@ -42,7 +42,8 @@ const FilterBar = props => {
                                 <select value={sortState} onChange={handleSortChange}>
                                     {
                                         get(filter, "field", []).map((sortOption, i) => {
-                                            return <option value={sortOption.value}>{sortOption.label}</option> 
+                                            console.log(sortOption, i)
+                                            return <option key={i} value={sortOption.value}>{sortOption.label}</option> 
                                         })
                                     }
                                 </select>

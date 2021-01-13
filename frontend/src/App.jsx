@@ -12,14 +12,18 @@ import './App.scss';
 
 
 const App = () => {
+  //List filter options
   const filterOptions = [
     { value:"Player", label:"Alphabetical" }, 
     { value:"Yds", label: "Total Rushing Yards" },
     { value:"Lng", label: "Longest Rush" }, 
     { value:"TD", label: "Total Rushing Touchdowns" }
   ]
+
+  //State management for data and result handlers
   const [currentData, setCurrentData] = useState([])
-  const [currentFilter, setCurrentFilter] = useState(filterOptions[0])
+  const [isFetching, setIsFetching] = useState(false)
+  const [noResults, setNoResults] = useState(false)
 
   //Hydrate state when empty
   if (!currentData.length){
@@ -31,42 +35,58 @@ const App = () => {
   }
 
   //Filter handlers
+
+  //Handle searchbar searches
   const onSearchChangeHandler = (searchText) => {
+    setIsFetching(true)
     getPlayerByName(searchText).then(res => {
       setCurrentData(res.data.data)
+      setIsFetching(false)
+      setNoResults(false)
+    }).catch(() => {
+      setNoResults(true)
     })
   }
 
+  //Handle sorting options
   const onSortChangeHandler = (filter) => {
-    console.log(filter)
+    setNoResults(false)
+    setIsFetching(true)
     switch(filter) {
-      case filterOptions[0].label:
+      case filterOptions[0].value:
         getAllPlayers().then(res => {
           setCurrentData(res.data.data)
+          setIsFetching(false)
         }).catch(err => {
           console.log(err)
         })
         break;
-      case filterOptions[1].label:
+      case filterOptions[1].value:
         getPlayersByYards().then(res => {
           setCurrentData(res.data.data)
+          setIsFetching(false)
         }).catch(err => {
           console.log(err)
         })
         break;
-      case filterOptions[2].label:
+      case filterOptions[2].value:
         getPlayersByLongestRun().then(res => {
           setCurrentData(res.data.data)
+          setIsFetching(false)
         }).catch(err => {
           console.log(err)
         })
         break;
-      case filterOptions[3].label:
+      case filterOptions[3].value:
         getPlayersByTouchdowns().then(res => {
           setCurrentData(res.data.data)
+          setIsFetching(false)
         }).catch(err => {
           console.log(err)
         })
+        break;
+      default: 
+        setIsFetching(false)
         break;
     }
   }
@@ -87,7 +107,7 @@ const App = () => {
         ]}
         onSearchChangeHandler={onSearchChangeHandler}
         onSortChangeHandler={onSortChangeHandler}/>
-      <PlayerTable data={currentData} />
+      <PlayerTable data={currentData} fetching={isFetching} noResults={noResults} />
     </div>
   );
 }
