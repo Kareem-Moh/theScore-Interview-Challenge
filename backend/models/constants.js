@@ -1,18 +1,18 @@
 const Positions = [ 
-    //Offensive Postiions
     "QB",
     "RB",
     "WR",
     "HB",
     "FB",
     "TE",
-    //Offensive Linemen
     "C",
     "OG",
     "OT",
-    //Defensive Positions
     "DB",
     "SS",
+    "P",
+    "K",
+    "NT"
 ]
 
 const Teams = [
@@ -48,6 +48,9 @@ const Teams = [
     "TB",
     "TEN",
     "WAS",
+    "OAK",
+    "LA",
+    "SD"
 ]
 
 module.exports = { 

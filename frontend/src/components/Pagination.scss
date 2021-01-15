@@ -11,4 +11,9 @@ select {
     display: flex;
     flex-direction: row;
     justify-content: center;
+
+    &--list {
+        min-width: 50px;
+        padding-left: 10px;
+    }
 }
