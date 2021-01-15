@@ -41,13 +41,11 @@ const App = () => {
 
   //Helper for calling sorting services
   const sortByPage = (filter, page = 1) => {
-    console.log(`From sort function -  filter: ${filter} page: ${page}, searchState: ${searchState}, sortState: ${sortState}, resCount: ${resCount}`)
     switch(filter) {
       case filterOptions[0].value:
         getAllPlayers(page).then(res => {
           setCurrentData(res.data.data)
           setResCount(res.data.count)
-          console.log(`count from switch case: ${res.data.count}, state: ${resCount}`)
           setIsFetching(false)
         }).catch(err => {
           console.log(err)
