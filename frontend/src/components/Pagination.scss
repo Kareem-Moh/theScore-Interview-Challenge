@@ -1,0 +1,14 @@
+select {
+    -webkit-appearance: none;
+    height: 30px;
+    border-radius: 4px;
+    background-color: #1e1f21;
+    color: white;
+    border: 1px solid lightgray;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PlayerTable from './components/PlayerTable'
 import FilterBar from './components/FilterBar'
+import Pagination from './components/Pagination'
 import { 
   getAllPlayers,
   getPlayerByName,
@@ -24,62 +25,56 @@ const App = () => {
   const [currentData, setCurrentData] = useState([])
   const [isFetching, setIsFetching] = useState(false)
   const [noResults, setNoResults] = useState(false)
+  const [resCount, setResCount] = useState(0)
+  const [searchState, setSearchState] = useState("")
+  const [sortState, setSortState] = useState(filterOptions[0].value)
 
   //Hydrate state when empty
   if (!currentData.length){
     getAllPlayers().then(res => {
       setCurrentData(res.data.data)
+      setResCount(res.data.count)
     }).catch(err => {
       console.log(err)
     })
   }
 
-  //Filter handlers
-
-  //Handle searchbar searches
-  const onSearchChangeHandler = (searchText) => {
-    setIsFetching(true)
-    getPlayerByName(searchText).then(res => {
-      setCurrentData(res.data.data)
-      setIsFetching(false)
-      setNoResults(false)
-    }).catch(() => {
-      setNoResults(true)
-    })
-  }
-
-  //Handle sorting options
-  const onSortChangeHandler = (filter) => {
-    setNoResults(false)
-    setIsFetching(true)
+  //Helper for calling sorting services
+  const sortByPage = (filter, page = 1) => {
+    console.log(`From sort function -  filter: ${filter} page: ${page}, searchState: ${searchState}, sortState: ${sortState}, resCount: ${resCount}`)
     switch(filter) {
       case filterOptions[0].value:
-        getAllPlayers().then(res => {
+        getAllPlayers(page).then(res => {
           setCurrentData(res.data.data)
+          setResCount(res.data.count)
+          console.log(`count from switch case: ${res.data.count}, state: ${resCount}`)
           setIsFetching(false)
         }).catch(err => {
           console.log(err)
         })
         break;
       case filterOptions[1].value:
-        getPlayersByYards().then(res => {
+        getPlayersByYards(page).then(res => {
           setCurrentData(res.data.data)
+          setResCount(res.data.count)
           setIsFetching(false)
         }).catch(err => {
           console.log(err)
         })
         break;
       case filterOptions[2].value:
-        getPlayersByLongestRun().then(res => {
+        getPlayersByLongestRun(page).then(res => {
           setCurrentData(res.data.data)
+          setResCount(res.data.count)
           setIsFetching(false)
         }).catch(err => {
           console.log(err)
         })
         break;
       case filterOptions[3].value:
-        getPlayersByTouchdowns().then(res => {
+        getPlayersByTouchdowns(page).then(res => {
           setCurrentData(res.data.data)
+          setResCount(res.data.count)
           setIsFetching(false)
         }).catch(err => {
           console.log(err)
@@ -91,10 +86,45 @@ const App = () => {
     }
   }
 
+  //Filter handlers
+
+  //Handle searchbar searches
+  const onSearchChangeHandler = (searchText, page = 1) => {
+    setSearchState(searchText)
+    setIsFetching(true)
+    getPlayerByName(searchText, page).then(res => {
+      setCurrentData(res.data.data)
+      setResCount(res.data.count)
+      setIsFetching(false)
+      setNoResults(false)
+    }).catch(() => {
+      setNoResults(true)
+    })
+  }
+
+  //Handle sorting options
+  const onSortChangeHandler = (filter) => {
+    setSortState(filter)
+    setNoResults(false)
+    setIsFetching(true)
+    sortByPage(filter)
+  }
+
+  //Handle page changes
+  const onPageChangeHandler = (page) => {
+    if (searchState === "") {
+      sortByPage(sortState, page)
+    } else {
+      onSearchChangeHandler(searchState, page)
+    }
+  }
+
   return (
     <div className="App">
       <div className="App--header">theRush - Interview Challenge</div>
       <FilterBar 
+        sortState={sortState}
+        searchState={searchState}
         filters={[
           {
             type: "search",
@@ -107,6 +137,7 @@ const App = () => {
         ]}
         onSearchChangeHandler={onSearchChangeHandler}
         onSortChangeHandler={onSortChangeHandler}/>
+      <Pagination pageLimit={50} entryCount={resCount} onPageChangeHandler={onPageChangeHandler} />
       <PlayerTable data={currentData} fetching={isFetching} noResults={noResults} />
     </div>
   );

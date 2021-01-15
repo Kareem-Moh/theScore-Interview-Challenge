@@ -5,6 +5,7 @@ const pageCount = 50;
 getAllPlayers = async (req, res) => {
     let page = req.query.page
     let sortPromise = Player.find().sort({ "Player": 1 })
+    let playerCount = await Player.find().sort({ "Player": 1 }).countDocuments()
     if (!page || page <= 1) {
         await sortPromise.limit(pageCount).exec((err, players) => {
             if (err) {
@@ -14,7 +15,7 @@ getAllPlayers = async (req, res) => {
                     .status(404)
                     .json({ success: false, data: [], error: `Players not found` })
             }
-            return res.status(200).json({ success: true, data: players })
+            return res.status(200).json({ success: true, data: players, count: playerCount })
         })
     } else {
         await sortPromise.skip(pageCount*(page - 1)).limit(pageCount).exec((err, players) => {
@@ -25,7 +26,7 @@ getAllPlayers = async (req, res) => {
                     .status(404)
                     .json({ success: false, data: [], error: `Players not found` })
             }
-            return res.status(200).json({ success: true, data: players })
+            return res.status(200).json({ success: true, data: players, count: playerCount })
         })
     }
 }

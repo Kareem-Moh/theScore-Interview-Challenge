@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import get from 'lodash/get';
 import './FilterBar.scss';
 
 const FilterBar = props => {
     const {
         filters = [],
+        searchState = "",
+        sortState = "",
         onSearchChangeHandler = () => {},
         onSortChangeHandler = () => {}
     } = props
 
-    const [searchState, setSearchState] = useState("")
-    const [sortState, setSortState] = useState("")
-
     const handleSearchChange = (e) => {
-        setSearchState(e.target.value)
         onSearchChangeHandler(e.target.value)
     }
 
     const handleSortChange = (e) => {
-        setSortState(e.target.value)
         onSortChangeHandler(e.target.value)
     }
 
